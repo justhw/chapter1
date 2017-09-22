@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+ ~ Desc:
+ ~ Mail: caoshengsheng@terminus.io
+ ~ Date: 2017-09-20 14:13:30
+ ~ Created by caoss
+-->
+
+<mapper namespace="Customer">
+    <resultMap id="CustomerMap" type="Customer">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="contact" column="contact"/>
+        <result property="telephone" column="telephone"/>
+        <result property="email" column="email"/>
+        <result property="remark" column="remark"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <sql id="tb">
+        customer
+    </sql>
+
+    <sql id="cols_all">
+        id,
+        <include refid="cols_exclude_id"/>
+    </sql>
+
+    <sql id="cols_exclude_id">
+        `name`, `contact`, `telephone`, `email`, `remark`, 
+        created_at, updated_at
+    </sql>
+
+    <sql id="vals">
+        #{name}, #{contact}, #{telephone}, #{email}, #{remark}, 
+        now(), now()
+    </sql>
+
+    <sql id="criteria">
+        <where>
+            <if test="name != null">AND `name` = #{name}</if>
+            <if test="contact != null">AND `contact` = #{contact}</if>
+            <if test="telephone != null">AND `telephone` = #{telephone}</if>
+            <if test="email != null">AND `email` = #{email}</if>
+            <if test="remark != null">AND `remark` = #{remark}</if>
+            <if test="createdAt != null">AND <![CDATA[created_at >= #{createdAt}]]> </if>
+            <if test="updatedAt != null">AND <![CDATA[updated_at < #{updatedAt}]]> </if>
+        </where>
+    </sql>
+
+    <insert id="create" parameterType="Customer" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+        <include refid="tb"/>
+        (<include refid="cols_exclude_id"/>)
+        VALUES
+        (<include refid="vals"/>)
+    </insert>
+
+    <select id="findById" parameterType="long" resultMap="CustomerMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE id = #{id} LIMIT 1
+    </select>
+
+    <select id="findByIds" parameterType="list" resultMap="CustomerMap">
+        SELECT
+        <include refid="cols_all"/>
+        FROM
+        <include refid="tb"/>
+        WHERE id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <update id="update" parameterType="Customer">
+        UPDATE
+        <include refid="tb"/>
+        <set>
+            <if test="name != null">`name` = #{name},</if>
+            <if test="contact != null">`contact` = #{contact},</if>
+            <if test="telephone != null">`telephone` = #{telephone},</if>
+            <if test="email != null">`email` = #{email},</if>
+            <if test="remark != null">`remark` = #{remark},</if>
+            updated_at = now()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM <include refid="tb"/>
+        WHERE id = #{id}
+    </delete>
+    
+    <select id="count" parameterType="map" resultType="long">
+        SELECT COUNT(1)
+        FROM <include refid="tb"/>
+        <include refid="criteria"/>
+    </select>
+
+    <select id="paging" parameterType="map" resultMap="CustomerMap">
+        SELECT <include refid="cols_all"/>
+        FROM <include refid="tb"/>
+        <include refid="criteria"/>
+        ORDER BY `id` DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="list" parameterType="map" resultMap="CustomerMap">
+        SELECT <include refid="cols_all"/>
+        FROM <include refid="tb"/>
+        <include refid="criteria"/>
+        ORDER BY `id` DESC
+    </select>
+
+</mapper>
