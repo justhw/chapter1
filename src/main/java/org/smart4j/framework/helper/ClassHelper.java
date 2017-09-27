@@ -16,14 +16,13 @@ public final class ClassHelper {
     private static final Set<Class<?>> CLASS_SET;
 
     static {
-        System.out.println("---------------------------------------start classHelper");
         String basePackage = ConfigHelper.getAppBasePackage();
         CLASS_SET = ClassUtil.getClassSet(basePackage);
     }
 
-    public static Set<Class<?>> getServiceClassSet() {
+    private static Set<Class<?>> getServiceClassSet() {
 
-        Set<Class<?>> classSet = new HashSet<Class<?>>();
+        Set<Class<?>> classSet = new HashSet<>();
         for (Class<?> cls : CLASS_SET) {
             if (cls.isAnnotationPresent(Service.class)) {
                 classSet.add(cls);
@@ -34,7 +33,7 @@ public final class ClassHelper {
 
     public static Set<Class<?>> getControllerClassSet() {
 
-        Set<Class<?>> classSet = new HashSet<Class<?>>();
+        Set<Class<?>> classSet = new HashSet<>();
         for (Class<?> cls : CLASS_SET) {
             if (cls.isAnnotationPresent(Controller.class)) {
                 classSet.add(cls);
@@ -43,9 +42,9 @@ public final class ClassHelper {
         return classSet;
     }
 
-    public static Set<Class<?>> getBeanClassSet() {
+    static Set<Class<?>> getBeanClassSet() {
 
-        Set<Class<?>> beanClassSet = new HashSet<Class<?>>();
+        Set<Class<?>> beanClassSet = new HashSet<>();
         beanClassSet.addAll(getServiceClassSet());
         beanClassSet.addAll(getControllerClassSet());
         return beanClassSet;

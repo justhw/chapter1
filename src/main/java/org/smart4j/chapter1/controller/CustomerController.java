@@ -1,6 +1,7 @@
-package org.smart4j.framework;
+package org.smart4j.chapter1.controller;
 
 import org.smart4j.chapter1.model.Customer;
+import org.smart4j.framework.CustomerService;
 import org.smart4j.framework.annotation.Action;
 import org.smart4j.framework.annotation.Controller;
 import org.smart4j.framework.annotation.Inject;
