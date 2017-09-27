@@ -31,7 +31,7 @@ public final class ClassHelper {
         return classSet;
     }
 
-    public static Set<Class<?>> getControllerClassSet() {
+    static Set<Class<?>> getControllerClassSet() {
 
         Set<Class<?>> classSet = new HashSet<>();
         for (Class<?> cls : CLASS_SET) {

@@ -14,7 +14,6 @@ import java.util.Map;
 public final class IoCHelper {
 
     static {
-        System.out.println("---------------------------------------start IoCHelper");
         Map<Class<?>, Object> beanMap = BeanHelper.getBeanMap();
         if (!CollectionUtils.isEmpty(beanMap)) {
             for (Map.Entry<Class<?>, Object> beanEntry : beanMap.entrySet()) {
