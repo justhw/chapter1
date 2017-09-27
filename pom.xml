@@ -73,6 +73,11 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.4</version>
         </dependency>
+        <dependency>
+            <groupId>io.terminus.boot.rpc</groupId>
+            <artifactId>rpc-common</artifactId>
+            <version>1.0.5.RELEASE</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -20,6 +20,7 @@ public final class ControllerHelper {
     private static final Map<Request,Handler>  ACTION_MAP = new HashMap<Request,Handler>();
 
     static {
+        System.out.println("---------------------------------------start ControllerHelper");
         Set<Class<?>> controllerClassSet = ClassHelper.getControllerClassSet();
         if (!CollectionUtils.isEmpty(controllerClassSet)){
             for (Class<?> controllerClass:controllerClassSet){

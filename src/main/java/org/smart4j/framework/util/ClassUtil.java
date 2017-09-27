@@ -21,31 +21,18 @@ import java.util.jar.JarFile;
  */
 public class ClassUtil {
 
-    static {
-        System.out.println("类被加载了");
-    }
-
     private static final Logger LOGGER = LoggerFactory.getLogger(ClassUtil.class);
 
-    /**
-     * 获取类加载器
-     **/
     public static ClassLoader getClassLoader() {
+
         return Thread.currentThread().getContextClassLoader();
     }
 
-    /**
-     * 加载类
-     *
-     * @param className     所需类的完全限定名
-     * @param isInitialized 是否执行类的静态代码块(api:参数为 true 且以前未被初始化时，才初始化该类,
-     *                      作者说:设置为false可以提高性能.具体原因是什么没有说.我也不知道,这个参数确实  不知道是什么意思)
-     * @return
-     */
     public static Class<?> loadClass(String className, boolean isInitialized) {
+
         Class<?> aClass;
         try {
-            aClass = Class.forName(className, isInitialized, getClassLoader());  // 该方法类加载器有值的时候调用的是原生方法
+            aClass = Class.forName(className, isInitialized, getClassLoader());
         } catch (ClassNotFoundException e) {
             LOGGER.error("load class failure", e);
             throw new RuntimeException(e);
@@ -53,25 +40,14 @@ public class ClassUtil {
         return aClass;
     }
 
-    /**
-     * 获取该包名下的所有类
-     *
-     * @param packageName
-     * @return
-     */
     public static Set<Class<?>> getClassSet(String packageName) {
-        /**
-         * 1. 获取指定包名下的的所有类
-         * 2. 根据包名将其转换为文件路径
-         * 3. 读取class文件或jar包
-         * 4. 获取指定的类名去加载类
-         */
+
         Set<Class<?>> classSet = new HashSet<>();
         try {
             Enumeration<URL> urls = getClassLoader().getResources(packageName.replace(".", "/"));
             while (urls.hasMoreElements()) {
                 URL url = urls.nextElement();
-                String protocol = url.getProtocol(); //获取此 URL 的协议名称。
+                String protocol = url.getProtocol();
                 if (protocol.equals("file")) {
                     // %20 表示file协议?
                     String packagePath = url.getPath().replaceAll("%20", "");

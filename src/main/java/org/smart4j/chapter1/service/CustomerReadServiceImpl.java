@@ -1,21 +1,18 @@
 package org.smart4j.chapter1.service;
 
-import org.smart4j.chapter1.model.Customer;
-import org.smart4j.chapter1.model.dao.CustomerDao;
-
+import com.google.common.base.Throwables;
+import io.terminus.boot.rpc.common.annotation.RpcProvider;
 import io.terminus.common.model.PageInfo;
 import io.terminus.common.model.Paging;
 import io.terminus.common.model.Response;
-import io.terminus.boot.rpc.common.annotation.RpcProvider;
-
-import com.google.common.base.Throwables;
 import lombok.extern.slf4j.Slf4j;
-
+import org.smart4j.chapter1.model.Customer;
+import org.smart4j.chapter1.model.dao.CustomerDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Desc:
